@@ -7,16 +7,11 @@ public class Player : MonoBehaviour
 
     protected Rigidbody2D rigidbody2DPlayer;
     public Rigidbody2D Rigidbody2DPlayer { get => rigidbody2DPlayer; }
-    
-    protected Vector3 playerVelocity;
-    public Vector3 PlayerVelocity { get => playerVelocity; set => playerVelocity = value; }
-
 
     void Awake()
     {
         instance = this;
         rigidbody2DPlayer = GetComponent<Rigidbody2D>();
-        rigidbody2DPlayer.velocity = PlayerVelocity;
     }
 
     void OnEnable()
@@ -25,7 +20,9 @@ public class Player : MonoBehaviour
         Vector3 position = transform.position;
         position.y = 0f;
         transform.position = position;
-        PlayerMovement.Instance.SetDefaultDirection();
+
+        // Reset velocity player
+        rigidbody2DPlayer.velocity = Vector2.zero;
     }
 
     void OnTriggerEnter2D(Collider2D other)

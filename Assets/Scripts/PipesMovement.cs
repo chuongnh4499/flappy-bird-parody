@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class PipesGreen : MonoBehaviour
-{   
-    public float speed = 5f;
-    private float leftEdge;
+public class PipesMovement : MonoBehaviour
+{
+    public float speed = 1f;
+    public float leftEdge;
 
-    private void Start()
+    void Start()
     {
         leftEdge = Camera.main.ScreenToWorldPoint(Vector3.zero).x - 0.5f;
     }
 
-    private void Update()
+    void Update()
     {
         transform.position += Vector3.left * speed * Time.deltaTime;
 
