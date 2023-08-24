@@ -2,19 +2,22 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    [SerializeField] protected bool isShooting = false;
-    public GameObject prefab;
+    [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected Transform shootingPoint;
 
     void FixedUpdate()
     {
         Shooting();
     }
 
-    protected virtual void Shooting()
+    protected void Shooting()
     {
-        if (isShooting) return;
+        if (InputManager.Instance.IsClickedMouseLeft) {
+            Instantiate(bulletPrefab, shootingPoint.transform.position, Quaternion.identity);
+            
+            InputManager.Instance.IsClickedMouseLeft = false;
+        };
 
-        // Instantiate(prefab);
     }
 
 }

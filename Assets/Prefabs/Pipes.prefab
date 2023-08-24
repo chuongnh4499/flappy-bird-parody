@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  leftEdge: 0
 --- !u!1 &3343468915115857201
 GameObject:
   m_ObjectHideFlags: 0

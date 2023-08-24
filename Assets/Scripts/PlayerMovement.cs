@@ -12,10 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private void PlayerMoveUp()
     {
         // For PC
-        if (InputManager.Instance.IsClickedMouseLeft || InputManager.Instance.IsPressSpace)
+        if (InputManager.Instance.IsPressSpace)
         {
             MoveUp();
-            InputManager.Instance.IsClickedMouseLeft = false;
             InputManager.Instance.IsPressSpace = false;
         }
 
