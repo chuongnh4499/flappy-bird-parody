@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class PlayerShooting : MonoBehaviour
+public class PlayerShooting : ProjectBehaviour
 {
-    [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] protected Transform shootingPoint;
 
     void FixedUpdate()
@@ -13,7 +12,7 @@ public class PlayerShooting : MonoBehaviour
     protected void Shooting()
     {
         if (InputManager.Instance.IsClickedMouseLeft) {
-            Instantiate(bulletPrefab, shootingPoint.transform.position, Quaternion.identity);
+            BulletSpawner.Instance.Spawning(shootingPoint.transform.position, Quaternion.identity);
             
             InputManager.Instance.IsClickedMouseLeft = false;
         };

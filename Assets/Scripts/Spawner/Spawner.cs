@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : ProjectBehaviour
+public abstract class Spawner : ProjectBehaviour
 {
     [SerializeField] protected List<Transform> prefabs;
     public float spawnRate = 1f;
@@ -13,11 +13,11 @@ public class Spawner : ProjectBehaviour
         LoadPreFabs();
     }
 
-    protected void LoadPreFabs()
+    protected virtual void LoadPreFabs()
     {
         if (prefabs?.Count > 0) return;
 
-        Transform prefabsObj = gameObject.transform.Find("Prefabs");
+        Transform prefabsObj = gameObject.transform.Find(Constants.PREFABS);
         foreach (Transform prefab in prefabsObj)
         {
             prefabs.Add(prefab);
@@ -26,7 +26,7 @@ public class Spawner : ProjectBehaviour
         HidePreFabs();
     }
 
-    protected void HidePreFabs()
+    protected virtual void HidePreFabs()
     {
         foreach (Transform prefab in prefabs)
         {
@@ -34,25 +34,30 @@ public class Spawner : ProjectBehaviour
         }
     }
 
-    private void Start()
+    public virtual GameObject Spawning(Vector3 position, Quaternion rotation, string prefabName = null)
     {
-        StartCoroutine(Spawning());
-    }
+        GameObject original = GetPrefabByName(prefabName);
 
-    private void OnDisable()
-    {
-        StopCoroutine(Spawning());
-    }
-
-    IEnumerator Spawning()
-    {
-        yield return new WaitForSeconds(spawnRate);
-
-        GameObject prefab = Instantiate(prefabs[0].gameObject, transform.position, Quaternion.identity);
+        if (original == null) {
+            original = prefabs[0].gameObject;
+            Debug.LogWarning("Prefab not found: " + prefabName);
+        }
+        
+        GameObject prefab = Instantiate(original, position, rotation);
 
         if (prefab != null) prefab.gameObject.SetActive(true);
 
-        StartCoroutine(Spawning());
+        return prefab;
+    }
+
+    public virtual GameObject GetPrefabByName(string prefabName)
+    {
+        foreach (Transform prefab in prefabs)
+        {
+            if (prefab.name == prefabName) return prefab.gameObject;
+        }
+
+        return null;
     }
 
 }

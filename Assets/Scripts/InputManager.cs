@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null) Debug.LogError("Only one InputManager allow to exist");
         instance = this;
     }
 
