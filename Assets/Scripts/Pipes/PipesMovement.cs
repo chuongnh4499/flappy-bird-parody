@@ -1,21 +1,28 @@
 using UnityEngine;
 
-public class PipesMovement : MonoBehaviour
+public class PipesMovement : ProjectBehaviour
 {
-    public float speed = 1f;
-    public float leftEdge;
+    public float speed = 5f;
+    public float minHeight = -1f;
+    public float maxHeight = 1f;
 
-    void Start()
+    void OnEnable()
     {
-        leftEdge = Camera.main.ScreenToWorldPoint(Vector3.zero).x - 0.5f;
+        MoveByRandomHeight();
     }
 
-    void Update()
+    private void Update()
     {
-        transform.position += Vector3.left * speed * Time.deltaTime;
+        MoveToLeft();
+    }
 
-        if (transform.position.x < leftEdge) {
-            Destroy(gameObject);
-        }
+    private void MoveByRandomHeight()
+    {
+        transform.parent.position += Vector3.up * Random.Range(minHeight, maxHeight);
+    }
+
+    private void MoveToLeft()
+    {
+        transform.parent.position += Vector3.left * speed * Time.deltaTime;
     }
 }

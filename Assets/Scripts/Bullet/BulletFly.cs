@@ -7,6 +7,6 @@ public class BulletFly : MonoBehaviour
 
     void FixedUpdate()
     {
-        transform.Translate(direction * moveSpeed * Time.deltaTime);
+        transform.parent.Translate(direction * moveSpeed * Time.deltaTime);
     }
 }

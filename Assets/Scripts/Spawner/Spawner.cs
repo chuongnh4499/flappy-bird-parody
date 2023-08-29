@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Spawner : ProjectBehaviour
 {
     [SerializeField] protected List<Transform> prefabs;
-    public float spawnRate = 1f;
 
     protected override void LoadComponents()
     {
@@ -36,13 +34,20 @@ public abstract class Spawner : ProjectBehaviour
 
     public virtual GameObject Spawning(Vector3 position, Quaternion rotation, string prefabName = null)
     {
-        GameObject original = GetPrefabByName(prefabName);
+        GameObject original;
+
+        if (prefabName == null) {
+            original = prefabs[0].gameObject;
+        }
+        else {
+            original = GetPrefabByName(prefabName);
+        }
 
         if (original == null) {
-            original = prefabs[0].gameObject;
             Debug.LogWarning("Prefab not found: " + prefabName);
+            return null;
         }
-        
+
         GameObject prefab = Instantiate(original, position, rotation);
 
         if (prefab != null) prefab.gameObject.SetActive(true);

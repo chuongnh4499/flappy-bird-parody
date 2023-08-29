@@ -1,11 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PipesSpawner : Spawner
 {
     private static PipesSpawner instance;
     public static PipesSpawner Instance { get => instance; }
+    [SerializeField] protected float spawnRate = 1f;
 
     protected override void Awake()
     {
@@ -29,7 +29,7 @@ public class PipesSpawner : Spawner
     {
         yield return new WaitForSeconds(spawnRate);
 
-        Spawning(transform.position, Quaternion.identity, Constants.PIPES_GREEN);
+        base.Spawning(transform.position, Quaternion.identity, Constants.PIPES_GREEN);
 
         StartCoroutine(SpawningPipes());
     }
