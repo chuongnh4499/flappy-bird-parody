@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // TODO: Refactor all below
     private static Player instance;
     public static Player Instance { get => instance; }
 

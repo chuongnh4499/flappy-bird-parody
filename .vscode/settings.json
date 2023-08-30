@@ -1,6 +1,7 @@
 {
   "dotnet.defaultSolution": "Learning Project.sln",
   "cSpell.words": [
+    "Despawn",
     "Lerp"
   ]
 }

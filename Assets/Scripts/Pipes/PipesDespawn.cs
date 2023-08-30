@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PipesDespawn : Despawn
@@ -21,4 +19,11 @@ public class PipesDespawn : Despawn
         if (transform.parent.position.x < leftEdge) return true;
         return false;
     }
+
+    protected override void DespawnObject()
+    {
+        // base.DespawnObject();
+        PipesSpawner.Instance.Despawn(transform.parent.gameObject);
+    }
+
 }

@@ -14,7 +14,6 @@ public class PipesSpawner : Spawner
         instance = this;
     }
 
-    
     protected void Start()
     {
         StartCoroutine(SpawningPipes());

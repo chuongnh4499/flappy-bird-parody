@@ -19,4 +19,10 @@ public class BulletDespawn : Despawn
         if (transform.parent.position.x > rightEdge) return true;
         return false;
     }
+
+    protected override void DespawnObject()
+    {
+        // base.DespawnObject();
+        BulletSpawner.Instance.Despawn(transform.parent.gameObject);
+    }
 }

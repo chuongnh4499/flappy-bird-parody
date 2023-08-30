@@ -6,12 +6,11 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance { get => instance; }
-
-    public Player player;
-    public TextMeshPro scoreText;
-    public GameObject playButton;
-    public GameObject gameOver;
-    private int score;
+    [SerializeField] protected Player player;
+    [SerializeField] protected TextMeshPro scoreText;
+    [SerializeField] protected GameObject playButton;
+    [SerializeField] protected GameObject gameOver;
+    [SerializeField] protected int score;
 
     private void Awake()
     {
@@ -34,12 +33,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         player.enabled = true;
 
-        PipesGreen[] pipesGreen = FindObjectsOfType<PipesGreen>();
-
-        foreach (PipesGreen pipe in pipesGreen)
-        {
-            Destroy(pipe.gameObject);
-        }
+        // Destroy object was spawned
+        PipesSpawner.Instance.DestroyAllObj();
+        BulletSpawner.Instance.DestroyAllObj();
 
     }
 

@@ -4,11 +4,20 @@ using UnityEngine;
 public abstract class Spawner : ProjectBehaviour
 {
     [SerializeField] protected List<Transform> prefabs;
+    [SerializeField] protected List<Transform> poolObjs;
+    [SerializeField] protected Transform holder;
 
     protected override void LoadComponents()
     {
-        base.LoadComponents();
         LoadPreFabs();
+        LoadHolder();
+    }
+
+    protected virtual void LoadHolder()
+    {
+        if (holder != null) return;
+        holder = transform.Find(Constants.HOLDER);
+        Debug.Log(transform.name + ": LoadHolder", gameObject);
     }
 
     protected virtual void LoadPreFabs()
@@ -48,11 +57,14 @@ public abstract class Spawner : ProjectBehaviour
             return null;
         }
 
-        GameObject prefab = Instantiate(original, position, rotation);
+        GameObject newPrefab = GetObjectFromPool(original);
 
-        if (prefab != null) prefab.gameObject.SetActive(true);
+        newPrefab.transform.SetPositionAndRotation(position, rotation);
+        newPrefab.transform.parent = holder;
 
-        return prefab;
+        if (newPrefab != null) newPrefab.SetActive(true);
+
+        return newPrefab;
     }
 
     public virtual GameObject GetPrefabByName(string prefabName)
@@ -65,4 +77,37 @@ public abstract class Spawner : ProjectBehaviour
         return null;
     }
 
+    public virtual void Despawn(GameObject obj)
+    {
+        poolObjs.Add(obj.transform);
+        obj.SetActive(false);
+    }
+
+    protected virtual GameObject GetObjectFromPool(GameObject prefab)
+    {
+        foreach(Transform obj in poolObjs) 
+        {
+            if (obj.name == prefab.name) {
+                poolObjs.Remove(obj);
+                return obj.gameObject;
+            }
+        }
+
+        GameObject newPrefab = Instantiate(prefab);
+        newPrefab.name = prefab.name;
+
+        return newPrefab;
+    }
+
+    public virtual void DestroyAllObj()
+    {
+        if (holder == null || poolObjs == null) return;
+
+        foreach (Transform child in holder)
+        {
+            Destroy(child.gameObject);
+        }
+
+        poolObjs.Clear();
+    }
 }
