@@ -1,12 +1,6 @@
 using UnityEngine;
 
-public class BulletFly : MonoBehaviour
+public class BulletFly : ObjectFly
 {
-    [SerializeField] protected int moveSpeed = 10;
-    [SerializeField] protected Vector3 direction = Vector3.right;
-
-    void FixedUpdate()
-    {
-        transform.parent.Translate(direction * moveSpeed * Time.deltaTime);
-    }
+    
 }

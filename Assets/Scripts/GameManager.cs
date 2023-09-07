@@ -2,17 +2,18 @@
 using TMPro;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : ProjectBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance { get => instance; }
+    public string statusMatch = Constants.PAUSE;
     [SerializeField] protected Player player;
     [SerializeField] protected TextMeshPro scoreText;
     [SerializeField] protected GameObject playButton;
     [SerializeField] protected GameObject gameOver;
     [SerializeField] protected int score;
-
-    private void Awake()
+ 
+    protected override void Awake()
     {
         if (GameManager.instance != null) {
             Debug.LogError("Only 1 GameManager allow to exist");
@@ -23,8 +24,10 @@ public class GameManager : MonoBehaviour
         Pause();
     }
 
-    public void Play()
+    protected void Play()
     {
+        statusMatch = Constants.PLAY;
+        AudioManager.Instance.PlayBackgroundSound();
         score = 0;
         scoreText.text = score.ToString();
         gameOver.SetActive(false);
@@ -36,19 +39,21 @@ public class GameManager : MonoBehaviour
         // Destroy object was spawned
         PipesSpawner.Instance.DestroyAllObj();
         BulletSpawner.Instance.DestroyAllObj();
-
     }
 
-    public void Pause()
+    protected void Pause()
     {
+        statusMatch = Constants.PAUSE;
         Time.timeScale = 0f;
         player.enabled = false;
     }
 
     public void GameOver()
     {
+        statusMatch = Constants.GAME_OVER;
         gameOver.SetActive(true);
         playButton.SetActive(true);
+        AudioManager.Instance.PlayGameOverSound();
         Pause();
     }
 
@@ -56,6 +61,7 @@ public class GameManager : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString();
+        AudioManager.Instance.IncreaseScoreSound();
     }
 
 }

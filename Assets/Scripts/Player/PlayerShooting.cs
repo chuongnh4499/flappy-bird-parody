@@ -12,12 +12,10 @@ public class PlayerShooting : ProjectBehaviour
     protected void Shooting()
     {
         if (InputManager.Instance.IsClickedMouseLeft) {
+            AudioManager.Instance.ShootingSound();
             BulletSpawner.Instance.Spawning(shootingPoint.transform.position, Quaternion.identity);
             InputManager.Instance.IsClickedMouseLeft = false;
-            AudioManager.Instance.PlaySFX(AudioManager.Instance.gun);
-
         };
-
     }
 
 }

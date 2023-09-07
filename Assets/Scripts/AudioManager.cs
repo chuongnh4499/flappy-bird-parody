@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : ProjectBehaviour
 {
     private static AudioManager instance;
     public static AudioManager Instance { get => instance; }
@@ -12,11 +12,18 @@ public class AudioManager : MonoBehaviour
     [Header("-------------- Audio Clip --------------")]
     public AudioClip background;
     public AudioClip gun;
+    public AudioClip point;
+    public AudioClip gameOver;
 
-    private void Start()
+    protected override void Awake()
     {
-        musicSource.clip = background;
-        musicSource.Play();
+        if (instance != null) Debug.LogError("Only one AudioManager allow to exist");
+        instance = this;
+    }
+
+    void Start()
+    {
+        SFXSource.volume = 0.1f;
     }
 
     public void PlaySFX(AudioClip clip)
@@ -24,9 +31,31 @@ public class AudioManager : MonoBehaviour
         SFXSource.PlayOneShot(clip);
     }
 
+    public void PlayBackgroundSound()
+    {
+        musicSource.clip = background;
+        musicSource.Play();
+    }
+
+    public void StopBackgroundSound()
+    {
+        musicSource.Stop();
+    }
+
     public void ShootingSound()
     {
         SFXSource.PlayOneShot(gun);
+    }
+
+    public void IncreaseScoreSound()
+    {
+        SFXSource.PlayOneShot(point);
+    }
+
+    public void PlayGameOverSound()
+    {
+        musicSource.clip = gameOver;
+        musicSource.Play();
     }
 
 }

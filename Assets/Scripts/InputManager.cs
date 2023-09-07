@@ -22,12 +22,11 @@ public class InputManager : MonoBehaviour
 
     void SettingInputPC()
     {
-        if (Input.GetMouseButtonDown(0)) isClickedMouseLeft = true;
-        if (Input.GetKey(KeyCode.Space)) isPressSpace = true;
+        if (GameManager.Instance.statusMatch == Constants.PLAY) {
+            if (Input.GetMouseButtonDown(0)) isClickedMouseLeft = true;
+            if (Input.GetKey(KeyCode.Space)) isPressSpace = true;
+        }
     }
 
-    void SettingInputMobile()
-    {
-
-    }
+    void SettingInputMobile() { }
 }
