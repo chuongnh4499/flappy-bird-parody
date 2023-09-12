@@ -1,58 +1,69 @@
-
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : ProjectBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance { get => instance; }
-    public string statusMatch = Constants.PAUSE;
-    [SerializeField] protected Player player;
-    [SerializeField] protected TextMeshPro scoreText;
-    [SerializeField] protected GameObject playButton;
+    private string statusGame = Status.DEFAULT;
+    private int score;
+    [SerializeField] protected TextMeshProUGUI scoreText;
     [SerializeField] protected GameObject gameOver;
-    [SerializeField] protected int score;
- 
+    [SerializeField] protected GameObject playAgainButton;
+    [SerializeField] protected GameObject quitButton;
+    [SerializeField] private bool disablePause = false;
+
     protected override void Awake()
     {
-        if (GameManager.instance != null) {
+        base.Awake();
+        if (GameManager.instance != null)
+        {
             Debug.LogError("Only 1 GameManager allow to exist");
         }
-
         instance = this;
-        Application.targetFrameRate = 60;
-        Pause();
     }
 
-    protected void Play()
+    protected override void LoadComponents()
     {
-        statusMatch = Constants.PLAY;
+        Play();
+        LoadAppFrameRate();
+    }
+
+    public void Play()
+    {
+        SetStatusGame(Status.PLAY);
         AudioManager.Instance.PlayBackgroundSound();
-        score = 0;
-        scoreText.text = score.ToString();
-        gameOver.SetActive(false);
-        playButton.SetActive(false);
+        ResetScore();
+        DisplaySubMenu(false);
 
         Time.timeScale = 1f;
-        player.enabled = true;
+        Player.Instance.enabled = true;
 
         // Destroy object was spawned
-        PipesSpawner.Instance.DestroyAllObj();
-        BulletSpawner.Instance.DestroyAllObj();
+        ClearObjSpawned();
+    }
+
+    protected void LoadAppFrameRate()
+    {
+        Application.targetFrameRate = 60;
     }
 
     protected void Pause()
     {
-        statusMatch = Constants.PAUSE;
+        // Disable pause for testing
+        if (disablePause) return;
+
+        SetStatusGame(Status.PAUSE);
         Time.timeScale = 0f;
-        player.enabled = false;
+        Player.Instance.enabled = false;
+
+        DisplaySubMenu(true);
     }
 
     public void GameOver()
     {
-        statusMatch = Constants.GAME_OVER;
         gameOver.SetActive(true);
-        playButton.SetActive(true);
         AudioManager.Instance.PlayGameOverSound();
         Pause();
     }
@@ -62,6 +73,41 @@ public class GameManager : ProjectBehaviour
         score++;
         scoreText.text = score.ToString();
         AudioManager.Instance.IncreaseScoreSound();
+    }
+
+    protected void ResetScore()
+    {
+        score = 0;
+        scoreText.text = score.ToString();
+    }
+
+    protected void ClearObjSpawned()
+    {
+        PipesSpawner.Instance.DestroyAllObj();
+        BulletSpawner.Instance.DestroyAllObj();
+    }
+
+    public void QuitGame()
+    {
+        SceneManager.LoadSceneAsync(0);
+    }
+
+    protected void DisplaySubMenu(bool status)
+    {
+        gameOver.SetActive(status);
+        playAgainButton.SetActive(status);
+        quitButton.SetActive(status);
+    }
+
+
+    // Getter & Setter
+    public string GetStatusGame()
+    {
+        return statusGame;
+    }
+    public void SetStatusGame(string value)
+    {
+        statusGame = value;
     }
 
 }

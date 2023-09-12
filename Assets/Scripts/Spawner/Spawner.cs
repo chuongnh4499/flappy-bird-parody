@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Spawner : ProjectBehaviour
@@ -101,7 +102,7 @@ public abstract class Spawner : ProjectBehaviour
 
     public virtual void DestroyAllObj()
     {
-        if (holder == null || poolObjs == null) return;
+        if (!poolObjs.Any() && holder.childCount == 0) return;
 
         foreach (Transform child in holder)
         {

@@ -7,6 +7,10 @@ public class ObjectFly : ProjectBehaviour
 
     void Update()
     {
+        Move();
+    }
+
+    protected virtual void Move() {
         transform.parent.Translate(direction * moveSpeed * Time.deltaTime);
     }
 }

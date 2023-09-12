@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
@@ -22,8 +23,8 @@ public class InputManager : MonoBehaviour
 
     void SettingInputPC()
     {
-        if (GameManager.Instance.statusMatch == Constants.PLAY) {
-            if (Input.GetMouseButtonDown(0)) isClickedMouseLeft = true;
+        if (GameManager.Instance.GetStatusGame() == Status.PLAY) {
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) isClickedMouseLeft = true;
             if (Input.GetKey(KeyCode.Space)) isPressSpace = true;
         }
     }

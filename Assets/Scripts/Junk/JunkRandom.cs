@@ -1,18 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class JunkRandom : MonoBehaviour
+public class JunkRandom : ProjectBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected JunkController junkController;
+
+    protected override void LoadComponents()
     {
-        
+        base.LoadComponents();
+        LoadJunkController();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void LoadJunkController()
     {
-        
+        if (junkController != null) return;
+        junkController = GetComponent<JunkController>();
+        Debug.Log(transform.name + ": LoadJunkController", gameObject);
     }
+
+    // protected virtual void Start()
+    // {
+    //     JunkSpawning();
+    // }
+
+    // protected virtual void JunkSpawning()
+    // {
+    //     junkController.JunkSpawner.Spawning(transform.position, Quaternion.identity);
+    //     Invoke(nameof(JunkSpawning), 0.5f);
+    // }
+
 }

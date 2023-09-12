@@ -4,8 +4,7 @@ public class JunkFly : ObjectFly
 {
     protected override void OverridingValue()
     {
-        base.OverridingValue();
-        moveSpeed = 3;
+        moveSpeed = 7;
         direction = Vector3.left;
     }
 }
