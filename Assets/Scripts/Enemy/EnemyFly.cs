@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class JunkFly : ObjectFly
+public class EnemyFly : ObjectFly
 {
     protected override void OverridingValue()
     {

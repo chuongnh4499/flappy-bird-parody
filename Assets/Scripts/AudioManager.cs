@@ -23,7 +23,7 @@ public class AudioManager : ProjectBehaviour
 
     void Start()
     {
-        SFXSource.volume = 0.1f;
+        SFXSource.volume = 0.5f;
     }
 
     public void PlaySFX(AudioClip clip)
@@ -49,6 +49,7 @@ public class AudioManager : ProjectBehaviour
 
     public void IncreaseScoreSound()
     {
+        SFXSource.volume = 1f;
         SFXSource.PlayOneShot(point);
     }
 

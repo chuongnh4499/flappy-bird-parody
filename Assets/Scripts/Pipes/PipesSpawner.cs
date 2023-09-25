@@ -12,6 +12,11 @@ public class PipesSpawner : SpawnerByCoroutine
         instance = this;
     }
 
+    protected virtual void Start()
+    {
+        base.StartSpawningCoroutine();
+    }
+
     protected override void OverridingValue()
     {
         base.SetPrefabName(Constants.PIPES_GREEN);

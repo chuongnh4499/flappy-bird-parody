@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InputManager : MonoBehaviour
+public class InputManager : ProjectBehaviour
 {
     private static InputManager instance;
     public static InputManager Instance { get => instance; }
@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
     protected bool isPressSpace = false;
     public bool IsPressSpace { get => isPressSpace; set => isPressSpace = value; }
 
-    void Awake()
+    protected override void Awake()
     {
         if (instance != null) Debug.LogError("Only one InputManager allow to exist");
         instance = this;
@@ -23,8 +23,8 @@ public class InputManager : MonoBehaviour
 
     void SettingInputPC()
     {
-        if (GameManager.Instance.GetStatusGame() == Status.PLAY) {
-            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) isClickedMouseLeft = true;
+        if (GameManager.Instance.GetStatusGame() == Status.PLAY && !EventSystem.current.IsPointerOverGameObject()) {
+            if (Input.GetMouseButtonDown(0)) isClickedMouseLeft = true;
             if (Input.GetKey(KeyCode.Space)) isPressSpace = true;
         }
     }

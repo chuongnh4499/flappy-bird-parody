@@ -13,7 +13,7 @@ public class PlayerShooting : ProjectBehaviour
     {
         if (InputManager.Instance.IsClickedMouseLeft) {
             AudioManager.Instance.ShootingSound();
-            BulletSpawner.Instance.Spawning(shootingPoint.transform.position, Quaternion.identity);
+            BulletSpawner.Instance.Spawning(shootingPoint.position, Quaternion.identity);
             InputManager.Instance.IsClickedMouseLeft = false;
         };
     }

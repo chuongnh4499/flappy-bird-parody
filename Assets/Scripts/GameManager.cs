@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : ProjectBehaviour
 {
@@ -89,7 +88,8 @@ public class GameManager : ProjectBehaviour
 
     public void QuitGame()
     {
-        SceneManager.LoadSceneAsync(0);
+        GamePlayScenceTrans.Instance.LoadMainMenuScene();
+        Time.timeScale = 1f;
     }
 
     protected void DisplaySubMenu(bool status)
@@ -98,7 +98,6 @@ public class GameManager : ProjectBehaviour
         playAgainButton.SetActive(status);
         quitButton.SetActive(status);
     }
-
 
     // Getter & Setter
     public string GetStatusGame()

@@ -28,11 +28,13 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Obstacle") {
-            GameManager.Instance.GameOver();
-        }
-        else if (other.gameObject.tag == "Scoring") {
-            GameManager.Instance.IncreaseScore();
+        if (GameManager.Instance.GetStatusGame() == Status.PLAY) {
+            if (other.gameObject.tag == "Obstacle") {
+                GameManager.Instance.GameOver();
+            }
+            else if (other.gameObject.tag == "Scoring") {
+                GameManager.Instance.IncreaseScore();
+            }
         }
     }
 }
